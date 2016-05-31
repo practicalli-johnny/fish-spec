@@ -70,3 +70,28 @@
 
 ;; => In: [3] val: "Black" fails spec: :fish-spec.core/colour at: [:colour2] predicate: #{"Blue" "Dun" "Red"}
 
+;;;;;;;;;;;;;;;;;;;;;;;;
+;; More tests.
+
+;; The second number should be bigger than the first
+(defn one-bigger?[{:keys [number1 number2]}]
+  (= number2 (inc number1)))
+
+;; test one-bigger?
+(one-bigger? {:number1 1 :number2 2})
+(one-bigger? {:number1 10 :number2 20})
+
+;; The colours should be different values, so lets create an updated specification for that
+
+(spec/def ::first-line (spec/and (spec/cat :number1 ::fish-number :number2 ::fish-number :colour1 ::colour :colour2 ::colour)
+                                 one-bigger?
+                                 #(not= (:colour1 %) (:colour2 %))))
+
+
+;; now we can test if our data is valid
+
+(spec/valid? ::first-line [1 2 "Red" "Blue"])
+(spec/valid? ::first-line [1 2 "Red" "Black"])
+(spec/valid? ::first-line [3 0 "Red" "Blue"])
+(spec/valid? ::first-line [3 2 "Green" "Blue"])
+

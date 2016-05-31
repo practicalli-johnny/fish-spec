@@ -45,3 +45,28 @@
 
 ;; in the repl the following is output:
 ;; => val: 4 fails predicate: (set (keys fish-numbers))
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+;; Create specification for colours
+
+(spec/def ::colour #{"Red" "Blue" "Dun"})
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+;; Specifying a sequence of the values
+
+;; specify the sequence of values in the parameter vector: two numbers followed by two colours
+
+(spec/def ::first-line (spec/cat :number1 ::fish-number
+                                 :number2 ::fish-number
+                                 :colour1 ::colour
+                                 :colour2 ::colour))
+
+;; the spec is associating each part with a tag, to identify what was matched or not, and its predicate/pattern
+
+;; if we try to explain a failing spec, it will tell us where it went wrong
+
+;; Test the spec with an incorrect colour 
+(spec/explain ::first-line [1 2 "Red" "Black"])
+
+;; => In: [3] val: "Black" fails spec: :fish-spec.core/colour at: [:colour2] predicate: #{"Blue" "Dun" "Red"}
+

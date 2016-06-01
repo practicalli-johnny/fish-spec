@@ -96,3 +96,17 @@
 (spec/valid? ::first-line [3 0 "Red" "Blu"])
 (spec/valid? ::first-line [3 2 "Grn" "Blu"])
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+;; Peeking underneath the spec
+
+;; get the destructured, conformed values using spec/conform, which returns the tags along with the values
+
+(spec/conform ::first-line [1 2 "Red" "Blu"])
+;; => {:number1 1, :number2 2, :colour1 "Red", :colour2 "Blu"}
+
+(spec/valid? ::first-line [2 1 "Red" "Blu"])
+
+(spec/explain ::first-line [2 1 "Red" "Blu"])
+;; => val: {:number1 2, :number2 1, :colour1 "Red", :colour2 "Blu"} fails predicate: one-bigger?
+

@@ -110,3 +110,24 @@
 (spec/explain ::first-line [2 1 "Red" "Blu"])
 ;; => val: {:number1 2, :number2 1, :colour1 "Red", :colour2 "Blu"} fails predicate: one-bigger?
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+;; Generating test data
+
+;; The s/exercise function will generate data for your specifications.
+;; It will generate 10 items by default, or we can provide an argument as to how many items are wanted
+
+(spec/exercise ::first-line 7)
+
+#_([(0 1 "Red" "Blu") {:number1 0, :number2 1, :colour1 "Red", :colour2 "Blu"}]
+   [(0 1 "Blu" "Dun") {:number1 0, :number2 1, :colour1 "Blu", :colour2 "Dun"}]
+   [(1 2 "Blu" "Dun") {:number1 1, :number2 2, :colour1 "Blu", :colour2 "Dun"}]
+   [(0 1 "Blu" "Red") {:number1 0, :number2 1, :colour1 "Blu", :colour2 "Red"}]
+   [(1 2 "Dun" "Blu") {:number1 1, :number2 2, :colour1 "Dun", :colour2 "Blu"}]
+   [(1 2 "Dun" "Blu") {:number1 1, :number2 2, :colour1 "Dun", :colour2 "Blu"}]
+   [(0 1 "Red" "Blu") {:number1 0, :number2 1, :colour1 "Red", :colour2 "Blu"}])
+
+
+;; The spec/exercise generates the results, but not everything makes a good rhyme.
+;; For example, 2 does not rhyme with dun, but it does rhyme with blue
+

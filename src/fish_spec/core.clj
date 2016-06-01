@@ -228,3 +228,24 @@
 
 ;; Okay, now back to clojure.spec
 
+;;;;;;;;;;;;;;;;;;;;;;;;
+;; Adding a specification to the fish-line function
+
+;; A specification that checks that the arguements passed to the function are validated with ::first-line and the return value is a string
+(spec/fdef fish-line
+           :args ::first-line
+           :ret string?)
+
+;; Instrument the fish-line function
+(spec/instrument #'fish-line)
+
+;; lets test the call to fish-line function with data that should pass
+(fish-line 1 2 "Red" "Blu")
+
+;; now what happens when we provide arguements that fail the tests
+(fish-line 2 1 "Red" "Blu")
+
+;; ExceptionInfo Call to #'fish-spec.core/fish-line did not conform to spec:
+;; val: {:number1 2, :number2 1, :colour1 "Red", :colour2 "Blu"} fails at: [:args] predicate: one-bigger?
+;; :clojure.spec/args  (2 1 "Red" "Blu")
+;;   clojure.core/ex-info (core.clj:4617)

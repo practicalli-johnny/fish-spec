@@ -131,3 +131,44 @@
 ;; The spec/exercise generates the results, but not everything makes a good rhyme.
 ;; For example, 2 does not rhyme with dun, but it does rhyme with blue
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+;; Adding rhyming predicate to specification
+
+;; Add an extra predicate (true/false check) to ensure the results always rhyme
+
+(defn fish-numbers-rhymes-with-colour? [{number :number2 colour :colour2}]
+  (or
+   (= [number colour] [2 "Blu"])
+   (= [number colour] [1 "Dun"])))
+
+;; Now we redefine ::first-line specification to include this extra predicate to the existing predicates for the specification
+
+(spec/def ::first-line (spec/and (spec/cat :number1 ::fish-number :number2 ::fish-number :colour1 ::colour :colour2 ::colour)
+                                 one-bigger?
+                                 #(not= (:colour1 %) (:colour2 %))
+                                 fish-numbers-rhymes-with-colour?))
+
+(spec/valid? ::first-line [1 2 "Red" "Blu"])
+(spec/explain ::first-line [1 2 "Red" "Dun"])
+
+;; Exception Unable to resolve spec: :first-line  clojure.spec/the-spec (spec.clj:95)
+;; val: {:number1 1, :number2 2, :colour1 "Red", :colour2 "Dun"} fails predicate: fish-numbers-rhymes-with-colour?
+
+;; lets generate some tests again, based on the updated specification
+
+(spec/exercise ::first-line)
+
+#_([(0 1 "Red" "Dun") {:number1 0, :number2 1, :colour1 "Red", :colour2 "Dun"}]
+   [(0 1 "Blu" "Dun") {:number1 0, :number2 1, :colour1 "Blu", :colour2 "Dun"}]
+   [(1 2 "Dun" "Blu") {:number1 1, :number2 2, :colour1 "Dun", :colour2 "Blu"}]
+   [(0 1 "Red" "Dun") {:number1 0, :number2 1, :colour1 "Red", :colour2 "Dun"}]
+   [(0 1 "Blu" "Dun") {:number1 0, :number2 1, :colour1 "Blu", :colour2 "Dun"}]
+   [(1 2 "Red" "Blu") {:number1 1, :number2 2, :colour1 "Red", :colour2 "Blu"}]
+   [(1 2 "Red" "Blu") {:number1 1, :number2 2, :colour1 "Red", :colour2 "Blu"}]
+   [(0 1 "Red" "Dun") {:number1 0, :number2 1, :colour1 "Red", :colour2 "Dun"}]
+   [(1 2 "Red" "Blu") {:number1 1, :number2 2, :colour1 "Red", :colour2 "Blu"}]
+   [(1 2 "Red" "Blu") {:number1 1, :number2 2, :colour1 "Red", :colour2 "Blu"}])
+
+;; Emacs tip: use M-x cider-pprint-eval-last-sexp or C-c C-p to pretty print the output of the spec/exercise function in a seperate window and then paste it back in here after a #_ to comment the whole data structure
+

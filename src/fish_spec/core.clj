@@ -49,7 +49,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Create specification for colours
 
-(spec/def ::colour #{"Red" "Blue" "Dun"})
+;; define three colours (with three letters so the output looks nice)
+(spec/def ::colour #{"Red" "Blu" "Dun"})
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Specifying a sequence of the values
@@ -65,8 +66,8 @@
 
 ;; if we try to explain a failing spec, it will tell us where it went wrong
 
-;; Test the spec with an incorrect colour 
-(spec/explain ::first-line [1 2 "Red" "Black"])
+;; Test the spec with an incorrect colour
+(spec/explain ::first-line [1 2 "Red" "Blk"])
 
 ;; => In: [3] val: "Black" fails spec: :fish-spec.core/colour at: [:colour2] predicate: #{"Blue" "Dun" "Red"}
 
@@ -90,8 +91,8 @@
 
 ;; now we can test if our data is valid
 
-(spec/valid? ::first-line [1 2 "Red" "Blue"])
-(spec/valid? ::first-line [1 2 "Red" "Black"])
-(spec/valid? ::first-line [3 0 "Red" "Blue"])
-(spec/valid? ::first-line [3 2 "Green" "Blue"])
+(spec/valid? ::first-line [1 2 "Red" "Blu"])
+(spec/valid? ::first-line [1 2 "Red" "Blk"])
+(spec/valid? ::first-line [3 0 "Red" "Blu"])
+(spec/valid? ::first-line [3 2 "Grn" "Blu"])
 

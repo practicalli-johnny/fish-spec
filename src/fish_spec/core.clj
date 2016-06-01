@@ -172,3 +172,20 @@
 
 ;; Emacs tip: use M-x cider-pprint-eval-last-sexp or C-c C-p to pretty print the output of the spec/exercise function in a seperate window and then paste it back in here after a #_ to comment the whole data structure
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+;; Using core.spec with functions
+
+;; create a function that will create a string of our rhyme
+
+(defn fish-line
+  "Create our rhyme in a nicely formatted string"
+  [number1 number2 colour1 colour2]
+  (clojure.string/join " "
+                       (map #(str % " fish.")
+                            [(get fish-numbers number1)
+                             (get fish-numbers number2)
+                             colour1
+                             colour2])))
+
+

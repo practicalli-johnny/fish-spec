@@ -189,3 +189,42 @@
                              colour2])))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;
+;; Deconstructing the fish-line function
+
+;; The expression in the function body of fish-line is quite big, so lets build up to it in smaller parts so we can see what its doing.
+
+;; lets create a vector of values by looking up the values in the fish-numbers data structure we defined right at the start of the code
+
+[(get fish-numbers 1)
+ (get fish-numbers 2)]
+
+;; in the fish-line function we also include the strings of the colours we passed as arguments when calling the function.  Those arguments have no context here, so we just hard code the colour strings in our example.
+[(get fish-numbers 1)
+ (get fish-numbers 2)
+ "Red"
+ "Blu"]
+
+;; Now we can add the string " fish." to the end of each value in the vector we have created.  Using the map function, we take each element from the vector and give it to our anonymous function in the % position.  The str function inside our anonymous function simply returns a new string made from the current element from the vector and " fish."  Once map has iterated over all the elements in the vector the new vector of fish strings is returned.
+(map #(str % " fish.")
+     [(get fish-numbers 1)
+      (get fish-numbers 2)
+      "Red"
+      "Blu"])
+
+;; finaly we join the string values in the vector together into one string, using a white space, " ", as a seperator
+
+(clojure.string/join " "
+                     (map #(str % " fish.")
+                          [(get fish-numbers 1)
+                           (get fish-numbers 2)
+                           "Red"
+                           "Blu"]))
+
+;; So the above code is exactly the same as:
+(clojure.string/join " "
+                     ["One fish." "Two fish." "Red fish." "Blu fish."])
+
+
+;; Okay, now back to clojure.spec
+
